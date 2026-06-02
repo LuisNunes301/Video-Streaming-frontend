@@ -1,15 +1,36 @@
 export interface VideoDTO {
   id: string;
   title: string;
+
   duration: number;
-  status: string;
+
+  thumbnailUrl: string;
+  hlsPlaylistUrl: string;
+
+  width: number;
+  height: number;
+
+  size: number;
+
+  createdAt: string;
+
   active: boolean;
-  thumbnailUrl: string | null;
+  status: string;
 }
 
 export interface Video {
   id: string;
   title: string;
+
   duration: number;
-  thumbnailUrl: string | null;
+
+  thumbnailUrl: string;
+  hlsPlaylistUrl: string;
+
+  width: number;
+  height: number;
+
+  size: number;
+
+  createdAt: string;
 }

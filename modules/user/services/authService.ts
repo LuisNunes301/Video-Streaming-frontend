@@ -22,10 +22,11 @@ export async function register(data: {
   name: string;
   email: string;
   password: string;
-}): Promise<LoginResponse> {
-  const response = await httpClient.post<LoginResponse>("/auth/register", {
+}) {
+  const response = await httpClient.post(
+    "/auth/register",
     data
-  });
+  );
 
   return response.data;
 }

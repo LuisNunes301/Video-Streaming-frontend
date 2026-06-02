@@ -5,24 +5,39 @@ import { getAllVideos } from "../services/videoService";
 import { Video } from "../types/videos.types";
 
 export function useVideos() {
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [videos, setVideos] =
+    useState<Video[]>([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState<string | null>(null);
 
   useEffect(() => {
-    const fetchVideos = async () => {
+    async function fetchVideos() {
       try {
-        const data = await getAllVideos();
+        setLoading(true);
+
+        const data =
+          await getAllVideos();
+
         setVideos(data);
-      } catch (err) {
-        setError("Failed to load videos");
+      } catch {
+        setError(
+          "Failed to load videos"
+        );
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchVideos();
   }, []);
 
-  return { videos, loading, error };
+  return {
+    videos,
+    loading,
+    error,
+  };
 }

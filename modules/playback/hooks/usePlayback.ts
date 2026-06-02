@@ -10,7 +10,7 @@ export function usePlayback(videoId: string) {
   const [startAt, setStartAt] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
-  // 1️⃣ Buscar dados iniciais (videoUrl + startAt)
+
   useEffect(() => {
     let mounted = true;
 
@@ -36,24 +36,16 @@ export function usePlayback(videoId: string) {
     };
   }, [videoId]);
 
-  // 2️⃣ Aplicar startAt quando metadata carregar
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !videoUrl) return;
 
-    const handleLoadedMetadata = () => {
-      console.log("Aplicando startAt:", startAt);
+    video.onloadedmetadata = () => {
       video.currentTime = startAt;
-    };
-
-    video.addEventListener("loadedmetadata", handleLoadedMetadata);
-
-    return () => {
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
     };
   }, [videoUrl, startAt]);
 
-  // 3️⃣ Persistência do progresso (CORRIGIDO)
+
   useEffect(() => {
     const video = videoRef.current;
 
@@ -68,17 +60,17 @@ export function usePlayback(videoId: string) {
       }
     };
 
-    // Salvar a cada 5 segundos enquanto estiver tocando
+
     const interval = setInterval(() => {
       if (!video.paused && !video.ended) {
         persist();
       }
     }, 5000);
 
-    // Salvar quando pausar
+
     video.addEventListener("pause", persist);
 
-    // Salvar quando terminar
+
     video.addEventListener("ended", persist);
 
     return () => {
